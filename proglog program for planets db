@@ -1,0 +1,28 @@
+% Planets Database
+
+planet(mercury, rocky, 4879).
+planet(venus, rocky, 12104).
+planet(earth, rocky, 12742).
+planet(mars, rocky, 6779).
+planet(jupiter, gas_giant, 139820).
+planet(saturn, gas_giant, 116460).
+planet(uranus, ice_giant, 50724).
+planet(neptune, ice_giant, 49244).
+
+% Queries
+
+% Find the type of a planet
+planet_type(Name, Type) :-
+    planet(Name, Type, _).
+
+% Find the diameter of a planet
+planet_diameter(Name, Diameter) :-
+    planet(Name, _, Diameter).
+
+% Find all rocky planets
+rocky_planet(Name) :-
+    planet(Name, rocky, _).
+
+% Find all gas giant planets
+gas_giant(Name) :-
+    planet(Name, gas_giant, _).
