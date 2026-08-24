@@ -1,0 +1,52 @@
+import heapq
+
+# Graph with costs
+graph = {
+    'A': {'B': 1, 'C': 4},
+    'B': {'D': 2, 'E': 5},
+    'C': {'E': 1},
+    'D': {'G': 3},
+    'E': {'G': 2},
+    'G': {}
+}
+
+# Heuristic values
+h = {
+    'A': 7,
+    'B': 6,
+    'C': 4,
+    'D': 3,
+    'E': 2,
+    'G': 0
+}
+
+def astar(start, goal):
+    queue = [(h[start], 0, start, [start])]
+    visited = set()
+
+    while queue:
+        f, cost, node, path = heapq.heappop(queue)
+
+        if node in visited:
+            continue
+
+        visited.add(node)
+
+        if node == goal:
+            print("Path:", " -> ".join(path))
+            print("Cost:", cost)
+            return
+
+        for next_node, edge_cost in graph[node].items():
+            new_cost = cost + edge_cost
+            f_value = new_cost + h[next_node]
+
+            heapq.heappush(
+                queue,
+                (f_value, new_cost, next_node, path + [next_node])
+            )
+
+    print("No path found")
+
+
+astar('A', 'G')
