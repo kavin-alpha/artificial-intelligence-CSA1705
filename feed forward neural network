@@ -1,0 +1,32 @@
+from sklearn.neural_network import MLPClassifier
+
+# Input data
+X = [
+    [0, 0],
+    [0, 1],
+    [1, 0],
+    [1, 1]
+]
+
+# Output data (XOR)
+y = [0, 1, 1, 0]
+
+# Create Feed Forward Neural Network
+model = MLPClassifier(
+    hidden_layer_sizes=(4,),
+    activation='relu',
+    max_iter=2000,
+    random_state=1
+)
+
+# Train the model
+model.fit(X, y)
+
+# Test the model
+predictions = model.predict(X)
+
+print("Predictions:", predictions)
+
+# Test new input
+result = model.predict([[1, 0]])
+print("Prediction for [1, 0]:", result[0])
