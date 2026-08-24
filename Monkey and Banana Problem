@@ -1,0 +1,27 @@
+% Monkey and Banana Problem
+
+% State:
+% state(MonkeyPosition, MonkeyHeight, BoxPosition, BananaPosition)
+
+% Monkey can move from one position to another
+move(state(M, H, B, Banana), state(NewM, H, B, Banana)) :-
+    M \= NewM.
+
+% Monkey can push the box
+push_box(state(M, low, M, Banana),
+         state(Banana, low, Banana, Banana)).
+
+% Monkey can climb onto the box
+climb_box(state(M, low, M, Banana),
+          state(M, high, M, Banana)).
+
+% Monkey can grab the banana
+grab_banana(state(Banana, high, Banana, Banana),
+            got_banana).
+
+% Solution
+solve(State) :-
+    move(State, S1),
+    push_box(S1, S2),
+    climb_box(S2, S3),
+    grab_banana(S3, got_banana).
