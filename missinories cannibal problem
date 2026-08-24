@@ -1,0 +1,57 @@
+from collections import deque
+
+# State = (missionaries_left, cannibals_left, boat_side)
+
+def safe(m, c):
+    if m < 0 or c < 0 or m > 3 or c > 3:
+        return False
+
+    # Missionaries should not be outnumbered by cannibals
+    if m > 0 and c > m:
+        return False
+
+    # Right side
+    mr = 3 - m
+    cr = 3 - c
+
+    if mr > 0 and cr > mr:
+        return False
+
+    return True
+
+
+def solve():
+    start = (3, 3, 0)   # Boat on left
+    goal = (0, 0, 1)    # Boat on right
+
+    queue = deque([(start, [start])])
+    visited = {start}
+
+    moves = [
+        (1, 0), (2, 0),       # Missionaries
+        (0, 1), (0, 2),       # Cannibals
+        (1, 1)                # One missionary + one cannibal
+    ]
+
+    while queue:
+        state, path = queue.popleft()
+        m, c, boat = state
+
+        if state == goal:
+            print("Solution:")
+            for s in path:
+                print(s)
+            return
+
+        for dm, dc in moves:
+            if boat == 0:       # Boat moves left to right
+                new_state = (m - dm, c - dc, 1)
+            else:               # Boat moves right to left
+                new_state = (m + dm, c + dc, 0)
+
+            if safe(new_state[0], new_state[1]) and new_state not in visited:
+                visited.add(new_state)
+                queue.append((new_state, path + [new_state]))
+
+
+solve()
