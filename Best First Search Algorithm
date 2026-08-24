@@ -1,0 +1,66 @@
+% Best First Search Algorithm
+
+% Graph
+edge(a, b, 2).
+edge(a, c, 5).
+edge(b, d, 4).
+edge(b, e, 1).
+edge(c, f, 2).
+edge(d, g, 3).
+edge(e, g, 2).
+edge(f, g, 1).
+
+% Heuristic values
+h(a, 7).
+h(b, 5).
+h(c, 4).
+h(d, 3).
+h(e, 2).
+h(f, 1).
+h(g, 0).
+
+% Best First Search
+best_first(Start, Goal, Path) :-
+    bfs([node(Start, [Start])], Goal, RevPath),
+    reverse(RevPath, Path).
+
+bfs([node(Goal, Path)|_], Goal, Path).
+
+bfs([node(Current, Path)|Rest], Goal, Result) :-
+    findall(
+        node(Next, [Next|Path]),
+        (edge(Current, Next, _),
+         \+ member(Next, Path)),
+        Children
+    ),
+    add_and_sort(Children, Rest, NewQueue),
+    bfs(NewQueue, Goal, Result).
+
+% Add nodes and sort according to heuristic
+add_and_sort(Children, Queue, Sorted) :-
+    append(Children, Queue, All),
+    predsort(compare_nodes, All, Sorted).
+
+compare_nodes(<, node(A, _), node(B, _)) :-
+    h(A, HA),
+    h(B, HB),
+    HA < HB.
+
+compare_nodes(>, node(A, _), node(B, _)) :-
+    h(A, HA),
+    h(B, HB),
+    HA > HB.
+
+compare_nodes(=, node(A, _), node(B, _)) :-
+    h(A, HA),
+    h(B, HB),
+    HA =:= HB.
+
+Output
+        a
+       / \
+      b   c
+     / \   \
+    d   e   f
+     \ /     \
+      g       g
