@@ -1,0 +1,34 @@
+% Medical Diagnosis System
+
+% Symptoms of diseases
+
+disease(cold) :-
+    symptom(fever),
+    symptom(cough),
+    symptom(runny_nose).
+
+disease(flu) :-
+    symptom(fever),
+    symptom(headache),
+    symptom(body_pain).
+
+disease(malaria) :-
+    symptom(fever),
+    symptom(chills),
+    symptom(sweating).
+
+disease(typhoid) :-
+    symptom(fever),
+    symptom(headache),
+    symptom(abdominal_pain).
+
+% Diagnosis
+
+diagnosis(Disease) :-
+    disease(Disease).
+
+% Symptoms given by patient
+
+symptom(fever).
+symptom(cough).
+symptom(runny_nose).
